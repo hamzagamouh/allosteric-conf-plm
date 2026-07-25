@@ -1,1 +1,1 @@
-# Protein Allosteric Residue Prediction using Conformational Ensembles 
+# On the importance of Conformational Ensembles for Protein Allosteric Residue Prediction
