@@ -1,1 +1,1 @@
-# On the importance of Conformational Ensembles for Protein Allosteric Residue Prediction
+# From Sequence to Structure: Ligand Chemistry and Conformational Ensembles as Predictors of Allosteric Residues
