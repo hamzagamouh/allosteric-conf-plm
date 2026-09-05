@@ -76,6 +76,8 @@ def get_feature_names(feat_type, arrays):
         return DPOCKET_FEATURE_NAMES
     if feat_type == "esm":
         return esm_names
+    if feat_type == "esm+maccs":
+        return esm_names + MACCS_FEATURE_NAMES
     if feat_type == "esm+dpocket":
         return esm_names + DPOCKET_FEATURE_NAMES
     if feat_type == "esm+dpocket+maccs":
@@ -139,6 +141,10 @@ def compose_features(arrays, feat_type, mode, label):
         return arrays[f"{mode}_{label}_dpocket"]
     if feat_type == "esm":
         return arrays[f"{mode}_{label}_esm"]
+    if feat_type == "esm+maccs":
+        return np.concatenate(
+            [arrays[f"{mode}_{label}_esm"], arrays[f"{mode}_{label}_maccs"]], axis=1
+        )
     if feat_type == "esm+dpocket":
         return np.concatenate(
             [arrays[f"{mode}_{label}_esm"], arrays[f"{mode}_{label}_dpocket"]], axis=1

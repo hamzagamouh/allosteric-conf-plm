@@ -1,0 +1,52 @@
+[
+  {
+    "rank": 1,
+    "feature": "as_max_dst_norm-25%",
+    "importance": 0.024971258137875634
+  },
+  {
+    "rank": 2,
+    "feature": "surf_pol_vdw22-std",
+    "importance": 0.02439185191424924
+  },
+  {
+    "rank": 3,
+    "feature": "pock_vol-std",
+    "importance": 0.021538890950481605
+  },
+  {
+    "rank": 4,
+    "feature": "as_max_dst_norm-min",
+    "importance": 0.01975342674591189
+  },
+  {
+    "rank": 5,
+    "feature": "surf_pol_vdw22-min",
+    "importance": 0.019599800402460132
+  },
+  {
+    "rank": 6,
+    "feature": "n_abpa-std",
+    "importance": 0.015693697551009318
+  },
+  {
+    "rank": 7,
+    "feature": "pock_vol-mean",
+    "importance": 0.014764671633638898
+  },
+  {
+    "rank": 8,
+    "feature": "mean_as_ray-mean",
+    "importance": 0.014205037236964988
+  },
+  {
+    "rank": 9,
+    "feature": "surf_apol_vdw22-25%",
+    "importance": 0.01190980169944224
+  },
+  {
+    "rank": 10,
+    "feature": "drug_score-min",
+    "importance": 0.011873301003311167
+  }
+]

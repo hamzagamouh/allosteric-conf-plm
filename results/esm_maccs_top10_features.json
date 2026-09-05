@@ -1,0 +1,52 @@
+[
+  {
+    "rank": 1,
+    "feature": "MACCS-162 AROMATIC",
+    "importance": 0.020163875212919614
+  },
+  {
+    "rank": 2,
+    "feature": "MACCS-125 AROMATIC RING > 1",
+    "importance": 0.018448696165518495
+  },
+  {
+    "rank": 3,
+    "feature": "MACCS-96 5M RING",
+    "importance": 0.013709334719145877
+  },
+  {
+    "rank": 4,
+    "feature": "MACCS-163 6M RING",
+    "importance": 0.012497564099964517
+  },
+  {
+    "rank": 5,
+    "feature": "MACCS-165 RING",
+    "importance": 0.012473397143626006
+  },
+  {
+    "rank": 6,
+    "feature": "MACCS-137 HETEROCYCLE",
+    "importance": 0.01159156713273077
+  },
+  {
+    "rank": 7,
+    "feature": "MACCS-142 N > 1",
+    "importance": 0.011280007694132621
+  },
+  {
+    "rank": 8,
+    "feature": "MACCS-127 A$A!O > 1 (&...)",
+    "importance": 0.010991764772238849
+  },
+  {
+    "rank": 9,
+    "feature": "MACCS-65 C%N",
+    "importance": 0.009593883402354283
+  },
+  {
+    "rank": 10,
+    "feature": "MACCS-143 A$A!O",
+    "importance": 0.009093527706496062
+  }
+]

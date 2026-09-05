@@ -1,0 +1,52 @@
+[
+  {
+    "rank": 1,
+    "feature": "pock_vol-std",
+    "importance": 0.022414065286314167
+  },
+  {
+    "rank": 2,
+    "feature": "n_abpa-std",
+    "importance": 0.02075015142214927
+  },
+  {
+    "rank": 3,
+    "feature": "surf_pol_vdw22-min",
+    "importance": 0.019106160509687775
+  },
+  {
+    "rank": 4,
+    "feature": "surf_pol_vdw14-min",
+    "importance": 0.01624104062318409
+  },
+  {
+    "rank": 5,
+    "feature": "as_max_dst_norm-min",
+    "importance": 0.01438310788741647
+  },
+  {
+    "rank": 6,
+    "feature": "MACCS-162 AROMATIC",
+    "importance": 0.014219234404265441
+  },
+  {
+    "rank": 7,
+    "feature": "MACCS-65 C%N",
+    "importance": 0.011220500224830201
+  },
+  {
+    "rank": 8,
+    "feature": "MACCS-145 6M RING > 1",
+    "importance": 0.01045322512796654
+  },
+  {
+    "rank": 9,
+    "feature": "MACCS-121 N HETEROCYCLE",
+    "importance": 0.010324105539674586
+  },
+  {
+    "rank": 10,
+    "feature": "MACCS-125 AROMATIC RING > 1",
+    "importance": 0.010265514801249024
+  }
+]

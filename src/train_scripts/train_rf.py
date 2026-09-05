@@ -20,11 +20,13 @@ from train_scripts.data.io import (
 from train_scripts.models.rf import train_rf
 from train_scripts.models.metrics import balance_subsample, build_val_arrays
 
-AVAILABLE_MODELS = ["maccs", "dpocket", "esm", "esm+dpocket", "esm+dpocket+maccs"]
+AVAILABLE_MODELS = ["maccs", "dpocket", "esm", "esm+maccs", "esm+dpocket", "esm+dpocket+maccs"]
+METRIC_NAMES = ["mcc", "f1", "accuracy", "precision", "recall", "roc_auc"]
 
 
 def run(model, folds, features_dir, n_estimators, output_dir):
-    fold_train_mccs, fold_val_mccs = [], []
+    fold_train_metrics = defaultdict(list)
+    fold_val_metrics = defaultdict(list)
     fold_importances = []
     feature_names = None
 
@@ -44,11 +46,17 @@ def run(model, folds, features_dir, n_estimators, output_dir):
         val_feats, y_val = build_val_arrays(val_allo, val_non_allo)
 
         tm, vm, importances = train_rf(train_feats, y_train, val_feats, y_val, n_estimators=n_estimators)
-        print(f"  train_mcc={tm:.4f}  val_mcc={vm:.4f}")
 
-        fold_train_mccs.append(tm)
-        fold_val_mccs.append(vm)
+        for metric in METRIC_NAMES:
+            fold_train_metrics[metric].append(tm[metric])
+            fold_val_metrics[metric].append(vm[metric])
+
         fold_importances.append(importances)
+
+        print(f"  train: mcc={tm['mcc']:.4f}  f1={tm['f1']:.4f}  acc={tm['accuracy']:.4f}"
+              f"  prec={tm['precision']:.4f}  rec={tm['recall']:.4f}  auc={tm['roc_auc']:.4f}")
+        print(f"  val:   mcc={vm['mcc']:.4f}  f1={vm['f1']:.4f}  acc={vm['accuracy']:.4f}"
+              f"  prec={vm['precision']:.4f}  rec={vm['recall']:.4f}  auc={vm['roc_auc']:.4f}")
 
     mean_imp = np.mean(fold_importances, axis=0)
     top10_idx = np.argsort(mean_imp)[::-1][:10]
@@ -58,8 +66,11 @@ def run(model, folds, features_dir, n_estimators, output_dir):
     ]
 
     print(f"\n===== RESULTS [{model}] =====")
-    print(f"train_mcc: {np.mean(fold_train_mccs):.3f} ± {np.std(fold_train_mccs):.3f}")
-    print(f"val_mcc:   {np.mean(fold_val_mccs):.3f} ± {np.std(fold_val_mccs):.3f}")
+    for metric in METRIC_NAMES:
+        tr = fold_train_metrics[metric]
+        vl = fold_val_metrics[metric]
+        print(f"  {metric:9s}  train={np.mean(tr):.3f}±{np.std(tr):.3f}  val={np.mean(vl):.3f}±{np.std(vl):.3f}")
+
     print("\nTop 10 features:")
     for entry in top10:
         print(f"  {entry['rank']:2d}. {entry['feature']:40s} {entry['importance']:.4f}")
@@ -72,13 +83,17 @@ def run(model, folds, features_dir, n_estimators, output_dir):
             "model": model,
             "folds": folds,
             "n_estimators": n_estimators,
-            "train_mcc_per_fold": fold_train_mccs,
-            "val_mcc_per_fold": fold_val_mccs,
-            "train_mcc_mean": float(np.mean(fold_train_mccs)),
-            "train_mcc_std": float(np.std(fold_train_mccs)),
-            "val_mcc_mean": float(np.mean(fold_val_mccs)),
-            "val_mcc_std": float(np.std(fold_val_mccs)),
         }
+        for metric in METRIC_NAMES:
+            tr = fold_train_metrics[metric]
+            vl = fold_val_metrics[metric]
+            results[f"train_{metric}_per_fold"] = tr
+            results[f"val_{metric}_per_fold"] = vl
+            results[f"train_{metric}_mean"] = float(np.mean(tr))
+            results[f"train_{metric}_std"] = float(np.std(tr))
+            results[f"val_{metric}_mean"] = float(np.mean(vl))
+            results[f"val_{metric}_std"] = float(np.std(vl))
+
         json.dump(results, open(f"{output_dir}/{slug}_cv_results.json", "w"), indent=2)
         json.dump(top10, open(f"{output_dir}/{slug}_top10_features.json", "w"), indent=2)
         print(f"\nSaved results to {output_dir}/")

@@ -17,7 +17,7 @@ ESM_EMB_DIR = f"{HOME_FOLDER}/allosteric/method_2"
 
 # Fold JSON files and pre-extracted feature arrays live here
 # (allosteric_ligands_{mode}_fold_{fold}.json, {mode}_{label}_{feat}_fold_{fold}.npy, etc.)
-FEATURES_DIR = f"{HOME_FOLDER}/ahoj-allosteric/src/method_2/ligand_analysis"
+FEATURES_DIR = f"/auto/vestec1-elixir/home/hamzagamouh/allosteric-conf-plm/features"
 
 N_FOLDS = 5
 

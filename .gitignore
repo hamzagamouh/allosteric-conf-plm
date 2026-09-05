@@ -1,0 +1,18 @@
+# Pre-extracted feature arrays — large binary files, copied from external source
+features/
+
+# Cluster job scripts, outputs, and results (environment-specific)
+metacentrum/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Misc
+*.egg-info/
+.DS_Store

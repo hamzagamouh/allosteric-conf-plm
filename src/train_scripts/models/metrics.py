@@ -1,6 +1,24 @@
 import random
 import numpy as np
-from sklearn.metrics import matthews_corrcoef
+from sklearn.metrics import (
+    matthews_corrcoef, f1_score, accuracy_score,
+    precision_score, recall_score, roc_auc_score,
+)
+
+
+def evaluate_metrics(clf, X, y):
+    """Return a dict with MCC, F1, accuracy, precision, recall, and ROC-AUC."""
+    y_true = y.ravel()
+    y_pred = clf.predict(X)
+    y_prob = clf.predict_proba(X)[:, 1]
+    return {
+        "mcc":       float(matthews_corrcoef(y_true, y_pred)),
+        "f1":        float(f1_score(y_true, y_pred, zero_division=0)),
+        "accuracy":  float(accuracy_score(y_true, y_pred)),
+        "precision": float(precision_score(y_true, y_pred, zero_division=0)),
+        "recall":    float(recall_score(y_true, y_pred, zero_division=0)),
+        "roc_auc":   float(roc_auc_score(y_true, y_prob)),
+    }
 
 
 def evaluate_mcc(clf, X, y):
