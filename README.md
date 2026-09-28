@@ -1,6 +1,6 @@
 # From Sequence to Structure: Ligand Chemistry and Conformational Ensembles as Predictors of Allosteric Residues
 
-Benchmark codebase for the paper *"Accurate prediction of allosteric sites..."*  
+Benchmark codebase for the paper *"From Sequence to Structure: Ligand Chemistry and Conformational Ensembles as Predictors of Allosteric Residues"*  
 Compares sequence-based (ESM-2), ligand-based (MACCS fingerprints), and structure-based (FPocket/dpocket conformational ensembles) features for residue-level binary classification of allosteric vs. non-allosteric binding-site residues.
 
 ---
@@ -67,9 +67,9 @@ Python dependencies: `scikit-learn`, `numpy`, `pandas`, `rdkit`, `tqdm`, `joblib
 All file system paths are centralised in [src/train_scripts/config.py](src/train_scripts/config.py). Update these before running any script:
 
 ```python
-HOME_FOLDER      = "/storage/praha1/home/hamzagamouh"
+HOME_FOLDER      = "/my_home_folder"
 
-PDB_FOLDER       = f"{HOME_FOLDER}/allosteric/pdb_files"       # raw PDB structures
+PDB_FOLDER       = f"{HOME_FOLDER}/pdb_files"       # raw PDB structures
 LIGAND_INFO_DIR  = f"{HOME_FOLDER}/allosteric/asd_processing/ligand_info"
 MACCS_FPS_PATH   = f"{HOME_FOLDER}/allosteric/asd_processing/ligands_maccs.pkl"
 ASD_ENTRIES_PATH = ".../ASD_entries.json"
