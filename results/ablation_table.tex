@@ -1,0 +1,17 @@
+\begin{table}[h!]
+\centering
+\begin{tabular}{lcc}
+\hline
+\textbf{Feature Set} & \textbf{Train MCC} & \textbf{Val MCC} \\
+\hline
+FPocket                   & $0.992 \pm 0.004$ & $0.383 \pm 0.051$ \\
+ESM-2                     & $1.000 \pm 0.000$ & $0.103 \pm 0.009$ \\
+Ligand                    & $0.922 \pm 0.013$ & $0.421 \pm 0.026$ \\
+ESM-2 + FPocket           & $1.000 \pm 0.000$ & $0.429 \pm 0.040$ \\
+ESM-2 + Ligand            & $1.000 \pm 0.000$ & $0.440 \pm 0.022$ \\
+Ligand + FPocket          & $1.000 \pm 0.000$ & $0.405 \pm 0.050$ \\
+ESM-2 + FPocket + Ligand  & $1.000 \pm 0.000$ & $\mathbf{0.453 \pm 0.032}$ \\
+\hline
+\end{tabular}
+\caption{Performance of different feature combinations. Random Forest models (100 trees) trained on concatenated feature sets from conformational ensembles, evaluated by five-fold cross-validation. Results reported as Matthews Correlation Coefficient (MCC) $\pm$ standard deviation across the five folds.}\label{tab:ablation}
+\end{table}

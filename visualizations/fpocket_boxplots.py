@@ -52,8 +52,14 @@ n_non = (~np.isnan(non_top10).any(axis=1)).sum()
 print(f"Allosteric residues (no NaN row): {n_allo}")
 print(f"Non-allosteric residues (no NaN row): {n_non}")
 
-fig, axes = plt.subplots(2, 5, figsize=(22, 9))
+n_feats = len(top10_names)
+ncols = 3
+nrows = (n_feats + ncols - 1) // ncols
+fig, axes = plt.subplots(nrows, ncols, figsize=(14, 4.2 * nrows))
 axes = axes.flatten()
+
+for ax in axes[n_feats:]:
+    ax.set_visible(False)
 
 COLORS = {"Allosteric": "#e74c3c", "Non-allosteric": "#3498db"}
 

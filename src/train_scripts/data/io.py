@@ -80,23 +80,35 @@ def get_feature_names(feat_type, arrays):
         return esm_names + MACCS_FEATURE_NAMES
     if feat_type == "esm+dpocket":
         return esm_names + DPOCKET_FEATURE_NAMES
+    if feat_type == "maccs+dpocket":
+        return MACCS_FEATURE_NAMES + DPOCKET_FEATURE_NAMES
     if feat_type == "esm+dpocket+maccs":
         return esm_names + DPOCKET_FEATURE_NAMES + MACCS_FEATURE_NAMES
     raise ValueError(f"Unknown feat_type: {feat_type}")
 
 
-def load_fold_arrays(fold, features_dir=FEATURES_DIR):
+def load_fold_arrays(fold, features_dir=FEATURES_DIR, maccs_suffix=None):
     """Load all pre-extracted .npy arrays for one fold into a flat dict.
 
     Keys follow the pattern: "{mode}_{label}_{feat}"
     e.g. "train_allo_dpocket", "val_non_allo_maccs"
+
+    If ``maccs_suffix`` is given, the MACCS arrays are loaded from
+    ``{mode}_{label}_maccs_{maccs_suffix}_fold_{fold}.npy`` instead of the default
+    ``{mode}_{label}_maccs_fold_{fold}.npy`` (used for ligand-filtered fingerprints
+    produced by ``build_maccs_filtered.py``). These filtered arrays are row-aligned
+    with the default ESM / dpocket arrays, so mixed feature sets still work.
     """
     arrays = {}
     for mode in MODES:
         for label in LABELS:
             for feat in FEAT_TYPES:
                 key = f"{mode}_{label}_{feat}"
-                arrays[key] = np.load(f"{features_dir}/{key}_fold_{fold}.npy")
+                if feat == "maccs" and maccs_suffix:
+                    fname = f"{features_dir}/{mode}_{label}_maccs_{maccs_suffix}_fold_{fold}.npy"
+                else:
+                    fname = f"{features_dir}/{key}_fold_{fold}.npy"
+                arrays[key] = np.load(fname)
     return arrays
 
 
@@ -148,6 +160,10 @@ def compose_features(arrays, feat_type, mode, label):
     if feat_type == "esm+dpocket":
         return np.concatenate(
             [arrays[f"{mode}_{label}_esm"], arrays[f"{mode}_{label}_dpocket"]], axis=1
+        )
+    if feat_type == "maccs+dpocket":
+        return np.concatenate(
+            [arrays[f"{mode}_{label}_maccs"], arrays[f"{mode}_{label}_dpocket"]], axis=1
         )
     if feat_type == "esm+dpocket+maccs":
         return np.concatenate(

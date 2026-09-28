@@ -4,8 +4,12 @@ Usage examples:
     python -m train_scripts.train_rf --model maccs
     python -m train_scripts.train_rf --model esm+dpocket --folds 0 1 2 3 4
     python -m train_scripts.train_rf --model dpocket --n-estimators 100 --output-dir results/
+    python -m train_scripts.train_rf --model maccs --maccs-suffix bioplausible --output-dir results/
 
-Available models: maccs | dpocket | esm | esm+dpocket | esm+dpocket+maccs
+Available models: maccs | dpocket | esm | esm+maccs | esm+dpocket | maccs+dpocket | esm+dpocket+maccs
+
+--maccs-suffix loads ligand-filtered fingerprints built by
+`python -m train_scripts.data.build_maccs_filtered`.
 """
 import argparse
 import json
@@ -20,19 +24,22 @@ from train_scripts.data.io import (
 from train_scripts.models.rf import train_rf
 from train_scripts.models.metrics import balance_subsample, build_val_arrays
 
-AVAILABLE_MODELS = ["maccs", "dpocket", "esm", "esm+maccs", "esm+dpocket", "esm+dpocket+maccs"]
+AVAILABLE_MODELS = ["maccs", "dpocket", "esm", "esm+maccs", "esm+dpocket", "maccs+dpocket", "esm+dpocket+maccs"]
 METRIC_NAMES = ["mcc", "f1", "accuracy", "precision", "recall", "roc_auc"]
 
 
-def run(model, folds, features_dir, n_estimators, output_dir):
+def run(model, folds, features_dir, n_estimators, output_dir, maccs_suffix=None):
     fold_train_metrics = defaultdict(list)
     fold_val_metrics = defaultdict(list)
     fold_importances = []
     feature_names = None
 
+    if maccs_suffix:
+        print(f"Using ligand-filtered MACCS arrays: *_maccs_{maccs_suffix}_fold_*.npy")
+
     for fold in folds:
         print(f"\n--- fold {fold} [{model}] ---")
-        arrays = clean_dpocket_nans(load_fold_arrays(fold, features_dir))
+        arrays = clean_dpocket_nans(load_fold_arrays(fold, features_dir, maccs_suffix=maccs_suffix))
 
         if feature_names is None:
             feature_names = get_feature_names(model, arrays)
@@ -78,11 +85,14 @@ def run(model, folds, features_dir, n_estimators, output_dir):
     if output_dir:
         os.makedirs(output_dir, exist_ok=True)
         slug = model.replace("+", "_")
+        if maccs_suffix:
+            slug = f"{slug}_maccs_{maccs_suffix}"
 
         results = {
             "model": model,
             "folds": folds,
             "n_estimators": n_estimators,
+            "maccs_suffix": maccs_suffix,
         }
         for metric in METRIC_NAMES:
             tr = fold_train_metrics[metric]
@@ -109,9 +119,16 @@ def main():
     parser.add_argument("--n-estimators", type=int, default=10)
     parser.add_argument("--features-dir", default=FEATURES_DIR)
     parser.add_argument("--output-dir", default=None, help="Directory to save results JSON files.")
+    parser.add_argument(
+        "--maccs-suffix", default=None,
+        help="Load ligand-filtered MACCS arrays '*_maccs_<suffix>_fold_*.npy' "
+             "(produced by build_maccs_filtered.py, e.g. 'bioplausible') instead of "
+             "the default MACCS arrays.",
+    )
     args = parser.parse_args()
 
-    run(args.model, args.folds, args.features_dir, args.n_estimators, args.output_dir)
+    run(args.model, args.folds, args.features_dir, args.n_estimators, args.output_dir,
+        maccs_suffix=args.maccs_suffix)
 
 
 if __name__ == "__main__":

@@ -16,3 +16,6 @@ __pycache__/
 # Misc
 *.egg-info/
 .DS_Store
+
+# Latex source
+paper/
