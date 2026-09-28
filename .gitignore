@@ -3,7 +3,10 @@ features/
 
 # Cluster job scripts, outputs, and results (environment-specific)
 metacentrum/
-src/old/
+src/old*/
+
+# Exploratory visualizations
+visualizations/
 
 # Python cache
 __pycache__/

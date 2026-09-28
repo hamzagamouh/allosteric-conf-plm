@@ -64,19 +64,27 @@ Python dependencies: `scikit-learn`, `numpy`, `pandas`, `rdkit`, `tqdm`, `joblib
 
 ## Configuration
 
-All file system paths are centralised in [src/train_scripts/config.py](src/train_scripts/config.py). Update these before running any script:
+All file system paths are centralised in [src/train_scripts/config.py](src/train_scripts/config.py). By default, everything is resolved relative to the repository root, so no edits are needed if you use this layout:
 
-```python
-HOME_FOLDER      = "/my_home_folder"
+```
+data/                              # raw inputs (override with ALLOSTERIC_DATA_DIR)
+├── pdb_files/                     # raw PDB structures and ligand .sdf files
+├── asd_processing/
+│   ├── ligand_info/               # <unp>_ligands.json
+│   └── ligands_maccs.pkl          # MACCS fingerprints
+├── ASD_entries.json
+├── ASD_seqs.fasta                 # input to mmseqs_command.sh
+├── dpocket_feats/outputs/         # dpocket output tables
+└── esm_embeddings/                # ASD_<unp>_esm_embs.npy files
+features/                          # fold JSON + .npy arrays (override with ALLOSTERIC_FEATURES_DIR)
+```
 
-PDB_FOLDER       = f"{HOME_FOLDER}/pdb_files"       # raw PDB structures
-LIGAND_INFO_DIR  = f"{HOME_FOLDER}/allosteric/asd_processing/ligand_info"
-MACCS_FPS_PATH   = f"{HOME_FOLDER}/allosteric/asd_processing/ligands_maccs.pkl"
-ASD_ENTRIES_PATH = ".../ASD_entries.json"
+To keep the data elsewhere, set environment variables instead of editing the code:
 
-DPOCKET_OUT_DIR  = ".../dpocket_feats/outputs"   # dpocket output tables
-ESM_EMB_DIR      = ".../method_2"                # ASD_<unp>_esm_embs.npy files
-FEATURES_DIR     = ".../ligand_analysis"         # fold JSON + .npy arrays land here
+```bash
+export ALLOSTERIC_DATA_DIR=/path/to/data
+export ALLOSTERIC_FEATURES_DIR=/path/to/features
+export DPOCKET_EXEC=/path/to/dpocket   # only if dpocket is not on PATH
 ```
 
 ---

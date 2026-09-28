@@ -1,23 +1,31 @@
-HOME_FOLDER = "/storage/praha1/home/hamzagamouh"
+import os
+from pathlib import Path
+
+# Repository root (…/allosteric-conf-plm)
+REPO_ROOT = Path(__file__).resolve().parents[2]
+
+# Root folder holding the raw data. Defaults to <repo>/data; override with the
+# ALLOSTERIC_DATA_DIR environment variable or edit this line.
+DATA_DIR = os.environ.get("ALLOSTERIC_DATA_DIR", str(REPO_ROOT / "data"))
 
 # Raw data paths
-PDB_FOLDER = f"{HOME_FOLDER}/allosteric/pdb_files"
-LIGAND_INFO_DIR = f"{HOME_FOLDER}/allosteric/asd_processing/ligand_info"
-MACCS_FPS_PATH = f"{HOME_FOLDER}/allosteric/asd_processing/ligands_maccs.pkl"
-ASD_ENTRIES_PATH = f"{HOME_FOLDER}/ahoj-allosteric/src/method_2/ASD_entries.json"
+PDB_FOLDER = f"{DATA_DIR}/pdb_files"
+LIGAND_INFO_DIR = f"{DATA_DIR}/asd_processing/ligand_info"
+MACCS_FPS_PATH = f"{DATA_DIR}/asd_processing/ligands_maccs.pkl"
+ASD_ENTRIES_PATH = f"{DATA_DIR}/ASD_entries.json"
 
 # dpocket
-DPOCKET_OUT_DIR = f"{HOME_FOLDER}/allosteric/method_2/dpocket_feats/outputs"
-DPOCKET_INP_DIR = f"{HOME_FOLDER}/allosteric/method_2/dpocket_feats/inputs"
-DPOCKET_POCKET_PDBS_DIR = f"{HOME_FOLDER}/allosteric/method_2/dpocket_feats/pocket_pdbs"
-DPOCKET_EXEC = f"{HOME_FOLDER}/fpocket_sandbox/usr/local/bin/dpocket"
+DPOCKET_OUT_DIR = f"{DATA_DIR}/dpocket_feats/outputs"
+DPOCKET_INP_DIR = f"{DATA_DIR}/dpocket_feats/inputs"
+DPOCKET_POCKET_PDBS_DIR = f"{DATA_DIR}/dpocket_feats/pocket_pdbs"
+DPOCKET_EXEC = os.environ.get("DPOCKET_EXEC", "dpocket")  # assumes dpocket is on PATH
 
-# ESM embeddings
-ESM_EMB_DIR = f"{HOME_FOLDER}/allosteric/method_2"
+# ESM embeddings (ASD_<unp>_esm_embs.npy files)
+ESM_EMB_DIR = f"{DATA_DIR}/esm_embeddings"
 
 # Fold JSON files and pre-extracted feature arrays live here
 # (allosteric_ligands_{mode}_fold_{fold}.json, {mode}_{label}_{feat}_fold_{fold}.npy, etc.)
-FEATURES_DIR = f"/auto/vestec1-elixir/home/hamzagamouh/allosteric-conf-plm/features"
+FEATURES_DIR = os.environ.get("ALLOSTERIC_FEATURES_DIR", str(REPO_ROOT / "features"))
 
 N_FOLDS = 5
 

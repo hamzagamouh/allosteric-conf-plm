@@ -1,7 +1,5 @@
-HOME_FOLDER=/storage/praha1/home/hamzagamouh
+# Cluster ASD sequences at 30% identity (requires MMseqs2 on PATH).
+# DATA_DIR should match DATA_DIR in config.py (default: <repo>/data).
+DATA_DIR=${ALLOSTERIC_DATA_DIR:-data}
 
-export PATH="$PATH:$HOME_FOLDER/ahoj-allosteric/src/mmseqs/bin"
-
-# mmseqs --help
-# mmseqs easy-cluster $HOME_FOLDER/method_1_dataset.fa $HOME_FOLDER/method_1_95_clusterRes tmp --min-seq-id 0.95
-mmseqs easy-cluster $HOME_FOLDER/allosteric/method_2/ASD_seqs.fasta $HOME_FOLDER/allosteric/method_2/ASD_30_clusterRes tmp --min-seq-id 0.3
+mmseqs easy-cluster $DATA_DIR/ASD_seqs.fasta $DATA_DIR/ASD_30_clusterRes tmp --min-seq-id 0.3
